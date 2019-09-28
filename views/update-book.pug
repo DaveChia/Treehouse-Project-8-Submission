@@ -1,0 +1,37 @@
+extends layout.pug
+
+block content 
+  body
+    -if(loadError)
+        h2(class="error") Oooops!
+          ul(class="error")
+            li Title is required
+            li Author is required
+    h1  Update Book
+    
+    form(action="/update-book" method="POST")  
+      p
+        label(for="Title")  Title
+        input(type="text",id="title",name="title",value=data.title)
+        input(type="hidden",name="bookID",value=data.id)
+      p
+        label(for="author")  Author
+        input(type="text",id="author",name="author",value=data.author)
+      p
+        label(for="genre")  Genre
+        input(type="text",id="genre",name="genre",value=data.genre)
+      p
+        label(for="year")  Year
+        input(type="text",id="year",name="year",value=data.year)
+      p
+        input(type="submit",value="Update Book")
+
+    form(action="/delete-book" method="POST")  
+      p
+        a(class="button",href="/")  Cancel
+        input(type="hidden",name="bookID",value=data.id)
+      p
+        input(type="submit",value="Delete Book")
+
+     
+      

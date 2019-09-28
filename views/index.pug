@@ -1,0 +1,37 @@
+extends layout.pug
+
+block content 
+  body
+    h1 Books
+    p  
+        a(href='/books/new',class="button") Create New Book
+
+    form(action="/search-book" method="POST")  
+        p
+            input(type="text",id="search",name="search",placeholder='Search Book Title Here')
+        p
+            input(type="submit",value="Search")
+
+    table  
+        thread
+            tr
+                th Title
+                th Author
+                th Genre
+                th Year
+
+        tbody
+            each book,index in data
+                tr  
+                    td
+                        a(href="/books:"+book.id) #{book.title}     
+                    td  #{book.author}  
+                    td  #{book.genre}  
+                    td  #{book.year}  
+
+        div(style="width:100%;")
+        
+            each element in data2
+                a(class='button', href="/page:"+element) #{element+1}
+                
+       
