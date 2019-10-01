@@ -5,13 +5,15 @@ block content
     -if(loadError)
         h2(class="error") Oooops!
           ul(class="error")
-            li Title is required
-            li Author is required
+            -if(emptyTitle)
+              li Title is required
+            -if(emptyAuthor)
+              li Author is required
     h1  Update Book
     
-    form(action="/update-book" method="POST")  
+    form(action="/books/"+data.id, method="POST")  
       p
-        label(for="Title")  Title
+        label(for="title")  Title
         input(type="text",id="title",name="title",value=data.title)
         input(type="hidden",name="bookID",value=data.id)
       p
@@ -26,7 +28,7 @@ block content
       p
         input(type="submit",value="Update Book")
 
-    form(action="/delete-book" method="POST")  
+    form(action="/books/"+data.id+"/delete" method="POST")  
       p
         a(class="button",href="/")  Cancel
         input(type="hidden",name="bookID",value=data.id)

@@ -3,13 +3,15 @@ extends layout.pug
 block content 
   body          
     h1 New Book
-    form(action="/submit-new-book" method="POST")  
+    form(action="/books/new" method="POST")  
 
       -if(loadError)
         h2(class="error") Oooops!
           ul(class="error")
-            li Title is required
-            li Author is required
+            -if(emptyTitle)
+              li Title is required
+            -if(emptyAuthor)
+              li Author is required
       p
         label(for="title")  Title
         input(type="text",id="title",name="title")

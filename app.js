@@ -75,7 +75,7 @@ app.get('/error', (request, response) => {
     response.render('./error');
 });
 
-app.post('/submit-new-book', (req, res) => {
+app.post('/books/new', (req, res) => {
 
     (async () => {
         // await sequelize.sync({ force: true });
@@ -103,7 +103,33 @@ app.post('/submit-new-book', (req, res) => {
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
                 console.error('Validation errors: ', errors);
-                res.redirect('/books/error:1');
+
+                // if (req.body.title == "" && req.body.bookAuthor == "") {
+                //     res.render('./new-book', { loadError: false, loadError: true, emptyTitle: true, emptyAuthor: true });
+
+                // }
+
+                if (req.body.title == "") {
+
+                    if (req.body.author == "") {
+
+                        res.render('./new-book', { loadError: true, emptyTitle: true, emptyAuthor: true });
+
+                    } else {
+
+                        res.render('./new-book', { loadError: true, emptyTitle: true });
+
+                    }
+
+                }
+
+                if (req.body.author == "") {
+
+                    res.render('./new-book', { loadError: true, emptyTitle: true, emptyAuthor: true });
+
+                }
+
+                res.end();
 
             } else {
                 console.error('Error connecting to the database: ', error);
@@ -136,29 +162,7 @@ app.get('/books:id', (req, response) => {
 
 });
 
-
-app.get('/books/updateError:id', (req, response) => {
-
-    let queryID = (req.param("id"));
-    queryID = queryID.replace(":", "");
-
-    (async () => {
-
-        try {
-            await sequelize.authenticate();
-            const bookByID = await Book.findByPk(queryID);
-            response.render('./update-book', { data: bookByID.toJSON(), loadError: true });
-
-        } catch (error) {
-            response.redirect('/error');
-            response.end();
-        }
-    })();
-
-});
-
-
-app.post('/update-book', (req, res) => {
+app.post('/books/:id', (req, res) => {
 
     (async () => {
         // await sequelize.sync({ force: true });
@@ -190,8 +194,30 @@ app.post('/update-book', (req, res) => {
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
                 console.error('Validation errors: ', errors);
-                res.redirect('/books/updateError:' + bookID);
 
+                const bookByID = await Book.findByPk(req.body.bookID);
+
+
+                if (req.body.title == "") {
+
+                    if (req.body.author == "") {
+
+                        res.render('./update-book', { data: bookByID, loadError: true, emptyTitle: true, emptyAuthor: true });
+
+                    } else {
+
+                        res.render('./update-book', { data: bookByID, loadError: true, emptyTitle: true });
+
+                    }
+
+                }
+
+                if (req.body.author == "") {
+
+                    res.render('./update-book', { data: bookByID, loadError: true, emptyAuthor: true });
+                }
+
+                res.end();
             } else {
                 console.error('Error connecting to the database: ', error);
 
@@ -269,7 +295,7 @@ app.post('/search-book', (req, res) => {
     })();
 
 })
-app.post('/delete-book', (req, res) => {
+app.post('/books/:id/delete', (req, res) => {
 
     (async () => {
         // await sequelize.sync({ force: true });
@@ -339,7 +365,7 @@ Book.init({
 
     },
     genre: Sequelize.STRING,
-    year: Sequelize.STRING
+    year: Sequelize.INTEGER
 
 }, { sequelize });
 
