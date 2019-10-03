@@ -28,7 +28,7 @@ app.get('/', (request, response) => {
 app.get('/page:id', (request, response) => {
 
     let queryID = (request.param("id"));
-    queryID = queryID.replace(":", "");
+    queryID = (queryID.replace(":", "") - 1);
 
     let paginationArray = [];
     let filterBooksArray = [];
