@@ -102,33 +102,7 @@ app.post('/books/new', (req, res) => {
 
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
-                console.error('Validation errors: ', errors);
-
-                // if (req.body.title == "" && req.body.bookAuthor == "") {
-                //     res.render('./new-book', { loadError: false, loadError: true, emptyTitle: true, emptyAuthor: true });
-
-                // }
-
-                if (req.body.title == "") {
-
-                    if (req.body.author == "") {
-
-                        res.render('./new-book', { loadError: true, emptyTitle: true, emptyAuthor: true });
-
-                    } else {
-
-                        res.render('./new-book', { loadError: true, emptyTitle: true });
-
-                    }
-
-                }
-
-                if (req.body.author == "") {
-
-                    res.render('./new-book', { loadError: true, emptyTitle: true, emptyAuthor: true });
-
-                }
-
+                res.render('./new-book', { loadError: errors });
                 res.end();
 
             } else {
@@ -193,29 +167,10 @@ app.post('/books/:id', (req, res) => {
 
             if (error.name === 'SequelizeValidationError') {
                 const errors = error.errors.map(err => err.message);
-                console.error('Validation errors: ', errors);
 
                 const bookByID = await Book.findByPk(req.body.bookID);
 
-
-                if (req.body.title == "") {
-
-                    if (req.body.author == "") {
-
-                        res.render('./update-book', { data: bookByID, loadError: true, emptyTitle: true, emptyAuthor: true });
-
-                    } else {
-
-                        res.render('./update-book', { data: bookByID, loadError: true, emptyTitle: true });
-
-                    }
-
-                }
-
-                if (req.body.author == "") {
-
-                    res.render('./update-book', { data: bookByID, loadError: true, emptyAuthor: true });
-                }
+                res.render('./update-book', { data: bookByID, loadError: errors });
 
                 res.end();
             } else {

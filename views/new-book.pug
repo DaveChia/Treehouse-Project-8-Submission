@@ -8,10 +8,13 @@ block content
       -if(loadError)
         h2(class="error") Oooops!
           ul(class="error")
-            -if(emptyTitle)
+          - for (var i = 0; i < loadError.length; ++i) {
+             -if(loadError[i] === 'Validation notEmpty on title failed')
               li Title is required
-            -if(emptyAuthor)
+             -if(loadError[i] === 'Validation notEmpty on author failed')
               li Author is required
+          - }
+           
       p
         label(for="title")  Title
         input(type="text",id="title",name="title")
