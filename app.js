@@ -20,7 +20,7 @@ getAllBooksFromDB();
 
 app.get('/', (request, response) => {
 
-    response.redirect('/page:0');
+    response.redirect('/page:1');
     response.end();
 });
 
