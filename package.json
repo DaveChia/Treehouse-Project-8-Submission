@@ -12,7 +12,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^1.19.2",
-    "pug": "^2.0.4",
+    "pug": "^3.0.1",
     "react-router": "^5.0.1",
     "sequelize": "^5.19.0",
     "sqlite3": "^4.1.0"
